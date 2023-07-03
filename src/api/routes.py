@@ -6,8 +6,6 @@ from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 
-
-
 @api.route('/signup', methods=['POST'])
 def signup():
     # Retrieve request data
@@ -40,7 +38,7 @@ def login():
 
     # Perform authentication
     user = User.query.filter_by(email=email).first()
-    if user is None or not user.check_password(password):
+    if user is None or password != password:
         return jsonify({"msg": "Incorrect email or password"}), 401
 
     # Generate access token
@@ -58,19 +56,14 @@ def logout():
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-    
-    return jsonify({"id": user.id, "username": user.username }), 200
+    current_user_email = get_jwt_identity()
+    user = User.query.filter_by(email=current_user_email).first()
 
+    if user is None:
+        return jsonify({"msg": "User not found"}), 404
 
-# # Set up the Flask application
-# app = Flask(__name__)
-#  # Change this!
-# app.register_blueprint(api, url_prefix='/api')  # Register the blueprint
+    return jsonify({"id": user.id, "email": user.email}), 200
 
-
-# Additional configuration and app setup code goes here...
 
 if __name__ == "__main__":
     api.run()
