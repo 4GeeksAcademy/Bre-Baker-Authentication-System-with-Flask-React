@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import { useContext } from "react";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    actions.logout();
+  };
   return (
     <nav className="navbar navbar-dark bg-dark">
       <div className="container">
@@ -17,7 +25,7 @@ export const Navbar = () => {
             <button className="btn btn-secondary mr-4">Login</button>
           </Link>
           <Link to="/logout">
-            <button className="btn btn-secondary">Logout</button>
+            <button className="btn btn-secondary" onClick ={handleLogout}>Logout</button>
           </Link>
         </div>
       </div>

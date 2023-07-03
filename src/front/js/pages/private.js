@@ -1,10 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { Context } from "../store/appContext";
 
 export const Private = () => {
-    return(    
-        <div className="jumbotron-auto">
-			<h1>SECRETS</h1>
-	
-		</div>
-	);
+  const { store, actions } = useContext(Context);
+
+  useEffect(() => {
+    const access_token = sessionStorage.getItem('token');
+    actions.private(access_token);
+  }, []);
+
+  return (
+    <div className="jumbotron-auto">
+      <h1>SECRETS</h1>
+      {store.userData ? (
+        <div>
+          <p>User ID: {store.userData.id}</p>
+          <p>Email: {store.userData.email}</p>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
 };

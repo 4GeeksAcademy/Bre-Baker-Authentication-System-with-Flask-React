@@ -1,38 +1,27 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
-	const {email, setEmail} = useState("");
-	const {password, setPassword} = useState("");
+	const [email, setEmail] = useState(""); 
+	const [password, setPassword] = useState(""); 
+	const navigate = useNavigate();
 
 	const handleClick = () => {
-		const opts = {
-			method: 'POST',
-			body: JSON.stringify({
-				"email":email,
-				"password":password
-			})
-		}
-		fetch ('https://brennybaker-bookish-eureka-9vg7j65gx66f7pgw-3001.preview.app.github.dev/api/login', opts)
-			.then(resp => {
-				if(resp.staus === 200) return resp.json();
-				else console.log ("ERROR")
-			})
-			.then()
-			.catch(error => {
-				console.error ("there was an error", error)
-			})
+		actions.login(email,password);
+		navigate('/private')
+	};
+
 	return (
 		<div className="text-center mt-5">
-			<input type="text" placeholder="email"></input>
-			<input type="password" placeholder="password"></input>
-			<button className = "btn btn-secondary mr-4">Submit</button>
+			<input type="text" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} /> 
+			<input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} /> 
+			<button className="btn btn-secondary mr-4" onClick={handleClick}>Submit</button>
 			<div className="alert alert-info">
 				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
 			</div>
 		</div>
 	);
-};
 };

@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, Blueprint
 from api.models import db, User
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from flask_jwt_extended import JWTManager
+from flask import session
 
 api = Blueprint('api', __name__)
 
@@ -46,9 +47,10 @@ def login():
     return jsonify(access_token=access_token)
 
 
-@api.route('/logout', methods=['POST, GET'])
+@api.route('/logout', methods=['POST'])
 def logout():
     # Perform logout 
+    session.clear()
     return jsonify(message='User logged out successfully'), 200
 
 
