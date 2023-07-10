@@ -19,7 +19,8 @@ export const Signup = () => {
 			password: password
 		  }),
 		  headers: {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"X-Github-Token": "ghu_q9TBkKlqlQ2VSVMqmqvZB81RgfgB4J4Kr0gt"
 		  }
 		};
 	

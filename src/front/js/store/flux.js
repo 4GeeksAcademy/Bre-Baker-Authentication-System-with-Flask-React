@@ -21,7 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  password: password
 			}),
 			headers: {
-			  'Content-Type': 'application/json'
+			  'Content-Type': 'application/json',
+			  'X-Github-Token':'ghu_q9TBkKlqlQ2VSVMqmqvZB81RgfgB4J4Kr0gt'
 			}
 		  };
   
@@ -60,12 +61,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 		  }
 		},
 		private: async (access_token) => {
+			const opts = {
+			  method: 'GET',
+			  headers: {
+				'Content-Type': 'application/json',
+				'X-Github-Token': 'ghu_q9TBkKlqlQ2VSVMqmqvZB81RgfgB4J4Kr0gt',
+				Authorization: `Bearer ${access_token}`
+			  }
+			};
+		  
 			try {
-			  const resp = await fetch("https://brennybaker-bookish-eureka-9vg7j65gx66f7pgw-3001.preview.app.github.dev/api/protected", {
-				headers: {
-				  Authorization: `Bearer ${access_token}`,
-				},
-			  });
+			  const resp = await fetch("https://brennybaker-bookish-eureka-9vg7j65gx66f7pgw-3001.preview.app.github.dev/api/protected", opts);
 			  if (resp.ok) {
 				const data = await resp.json();
 				setStore({ userData: data }); // Update userData in the store

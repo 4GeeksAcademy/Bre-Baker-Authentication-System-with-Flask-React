@@ -7,7 +7,7 @@ export const Private = () => {
   useEffect(() => {
     const access_token = sessionStorage.getItem('token');
     actions.private(access_token);
-  }, []);
+  }, [actions]);
 
   return (
     <div className="jumbotron-auto">
